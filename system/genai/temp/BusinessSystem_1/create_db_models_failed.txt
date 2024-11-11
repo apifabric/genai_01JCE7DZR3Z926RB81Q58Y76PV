@@ -1,0 +1,2 @@
+Error creating database from model: November 11, 2024 18:23:34
+Mapper 'Mapper[Customer(customer)]' has no property 'orders'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.

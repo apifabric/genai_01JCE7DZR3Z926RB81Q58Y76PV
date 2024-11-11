@@ -1,0 +1,89 @@
+{
+    "name": "Orderly",
+    "logo": {
+        "Type": "Logo",
+        "name": "Orderly Logo",
+        "description": "A sleek and modern logo representing seamless order and customer management."
+    },
+    "sections": [
+        {
+            "title": "Effortless Customer & Order Management",
+            "subtitle": "Streamline your business operations",
+            "name": "hero",
+            "label": "Home",
+            "content": "Welcome to Orderly \u2014 your all-in-one solution for managing customers, orders, items, and products. Save time and enhance productivity with our easy-to-use system designed to meet your business needs. \n\n[Get Started Now!]()",
+            "order": 1,
+            "Type": "Hero",
+            "images": [
+                {
+                    "Type": "Hero",
+                    "name": "Hero Image",
+                    "description": "A vibrant image showing a business owner seamlessly managing orders from a digital dashboard."
+                }
+            ]
+        },
+        {
+            "title": "Our Mission",
+            "subtitle": "Empowering businesses through simplicity",
+            "name": "about",
+            "label": "About",
+            "content": "At Orderly, we believe in simplifying business complexities. Our mission is to provide a platform that integrates seamlessly into your existing workflow, helping you focus on what truly matters \u2014 growing your business.",
+            "order": 2,
+            "Type": "About",
+            "images": []
+        },
+        {
+            "title": "Comprehensive Services",
+            "subtitle": "Tailored solutions for your success",
+            "name": "services",
+            "label": "Services",
+            "content": "### Customer Management  \nEfficiently organize and maintain customer information with our intuitive interface.\n\n### Order Processing  \nQuickly create, update, and track orders with real-time notifications.\n\n### Product Cataloging  \nManage your inventory effortlessly and make data-driven decisions with ease.\n\n### Item Tracking  \nMonitor item availability and reduce inventory discrepancies.",
+            "order": 3,
+            "Type": "Services",
+            "images": [
+                {
+                    "Type": "Infographic",
+                    "name": "Services Infographic",
+                    "description": "An infographic displaying various services provided by Orderly, such as customer and order management."
+                }
+            ]
+        },
+        {
+            "title": "Customer Testimonials",
+            "subtitle": "",
+            "name": "testimonials",
+            "label": "Testimonials",
+            "content": "**\"Orderly has transformed the way we manage our operations. It's intuitive and saves us countless hours each week.\"**  \n- Alex J., Small Business Owner  \n\n**\"Not only does Orderly simplify our processes, but the support is also exceptional.\"**  \n- Jamie L., E-commerce Manager",
+            "order": 4,
+            "Type": "Testimonials",
+            "images": [
+                {
+                    "Type": "Testimonial",
+                    "name": "Customer Photo 1",
+                    "description": "Photo of a satisfied customer, Alex J."
+                },
+                {
+                    "Type": "Testimonial",
+                    "name": "Customer Photo 2",
+                    "description": "Photo of another satisfied customer, Jamie L."
+                }
+            ]
+        },
+        {
+            "title": "Contact Us",
+            "subtitle": "We're here to help",
+            "name": "contact",
+            "label": "Contact",
+            "content": "Have questions or need assistance? Our team is ready to assist you.\n\n**Phone:** (555) 0199-202  \n**Email:** support@orderly.com  \n**Address:** 123 Business Lane, Suite 345, Commerce City\n\n[Contact Us]()",
+            "order": 5,
+            "Type": "Contact",
+            "images": [
+                {
+                    "Type": "Map",
+                    "name": "Office Location Map",
+                    "description": "A map showing the location of Orderly's office."
+                }
+            ]
+        }
+    ]
+}

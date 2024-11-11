@@ -1,0 +1,62 @@
+{
+    "models": [
+        {
+            "classname": "Customer",
+            "code": "class Customer(Base):\n    \"\"\"\n    description: Customers with financial accounts and credit limits.\n    \"\"\"\n    __tablename__ = 'customer'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    credit_limit = Column(Integer, nullable=False)\n    balance = Column(Integer, default=0)  # Derived as sum of orders\n\n    orders = relationship(\"Order\", back_populates=\"customer\")",
+            "description": "Customers with financial accounts and credit limits.",
+            "name": "Customer"
+        },
+        {
+            "classname": "Order",
+            "code": "class Order(Base):\n    \"\"\"\n    description: Customer orders, including shipments.\n    \"\"\"\n    __tablename__ = 'order'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    customer_id = Column(Integer, ForeignKey('customer.id'))\n    date_shipped = Column(Date, nullable=True)\n    amount_total = Column(Integer, default=0)  # Derived as sum of items\n    notes = Column(String, nullable=True)\n\n    customer = relationship(\"Customer\", back_populates=\"orders\")\n    items = relationship(\"Item\", back_populates=\"order\")",
+            "description": "Customer orders, including shipments.",
+            "name": "Order"
+        },
+        {
+            "classname": "Item",
+            "code": "class Item(Base):\n    \"\"\"\n    description: Order items with product details and pricing.\n    \"\"\"\n    __tablename__ = 'item'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    order_id = Column(Integer, ForeignKey('order.id'))\n    product_id = Column(Integer, ForeignKey('product.id'))\n    quantity = Column(Integer, nullable=False)\n    unit_price = Column(Integer)  # Copied from product\n    amount = Column(Integer, default=0)  # Derived as quantity * unit_price\n\n    order = relationship(\"Order\", back_populates=\"items\")\n    product = relationship(\"Product\")",
+            "description": "Order items with product details and pricing.",
+            "name": "Item"
+        },
+        {
+            "classname": "Product",
+            "code": "class Product(Base):\n    \"\"\"\n    description: Products available for sale with unit price.\n    \"\"\"\n    __tablename__ = 'product'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    unit_price = Column(Integer, nullable=False)\n\n    items = relationship(\"Item\")",
+            "description": "Products available for sale with unit price.",
+            "name": "Product"
+        }
+    ],
+    "rules": [
+        {
+            "name": "Rule.sum",
+            "description": "Derives Customer.balance as sum of Order.amount_total where order is not shipped.",
+            "use_case": "Derive parent column as sum of designated child column, optional where clause.",
+            "code": "Rule.sum(derive=Customer.balance, as_sum_of=Order.amount_total, where=lambda row: row.date_shipped is None)"
+        },
+        {
+            "name": "Rule.sum",
+            "description": "Derives Order.amount_total as sum of Item.amount.",
+            "use_case": "Derive parent column as sum of designated child column, optional where clause.",
+            "code": "Rule.sum(derive=Order.amount_total, as_sum_of=Item.amount)"
+        },
+        {
+            "name": "Rule.formula",
+            "description": "Calculates Item.amount using quantity multiplied by unit_price.",
+            "use_case": "Formulas declare column value, based on current and parent rows.",
+            "code": "Rule.formula(derive=Item.amount, as_expression=lambda row: row.quantity * row.unit_price)"
+        },
+        {
+            "name": "Rule.copy",
+            "description": "Copies Item.unit_price from Product.unit_price.",
+            "use_case": "Copy declares child column copied from parent column.",
+            "code": "Rule.copy(derive=Item.unit_price, from_parent=Product.unit_price)"
+        },
+        {
+            "name": "Rule.constraint",
+            "description": "Enforces that Customer.balance does not exceed credit_limit.",
+            "use_case": "Constraints declare condition that must be true for all commits.",
+            "code": "Rule.constraint(validate=Customer, as_condition=lambda row: row.balance <= row.credit_limit, error_msg=\"Customer balance ({row.balance}) exceeds credit limit ({row.credit_limit})\")"
+        }
+    ],
+    "test_data": "# Test Data for Customers\ncustomer1 = Customer(id=1, name=\"Alice\", credit_limit=5000, balance=0)\ncustomer2 = Customer(id=2, name=\"Bob\", credit_limit=3000, balance=0)\ncustomer3 = Customer(id=3, name=\"Carol\", credit_limit=4000, balance=0)\ncustomer4 = Customer(id=4, name=\"David\", credit_limit=3500, balance=0)\n\n# Test Data for Products\nproduct1 = Product(id=1, name=\"Widget\", unit_price=100)\nproduct2 = Product(id=2, name=\"Gadget\", unit_price=150)\nproduct3 = Product(id=3, name=\"Thingamajig\", unit_price=200)\nproduct4 = Product(id=4, name=\"Doohickey\", unit_price=250)\n\n# Test Data for Orders\norder1 = Order(id=1, customer_id=1, date_shipped=date(2023, 10, 1), amount_total=0, notes=\"First Order\")\norder2 = Order(id=2, customer_id=2, date_shipped=date(2023, 11, 1), amount_total=0, notes=\"Second Order\")\norder3 = Order(id=3, customer_id=3, date_shipped=None, amount_total=0, notes=\"Third Order\")\norder4 = Order(id=4, customer_id=4, date_shipped=date(2023, 12, 1), amount_total=0, notes=\"Fourth Order\")\n\n# Test Data for Items\nitem1 = Item(id=1, order_id=1, product_id=1, quantity=1, unit_price=100, amount=100)\nitem2 = Item(id=2, order_id=2, product_id=2, quantity=2, unit_price=150, amount=300)\nitem3 = Item(id=3, order_id=3, product_id=3, quantity=3, unit_price=200, amount=600)\nitem4 = Item(id=4, order_id=4, product_id=4, quantity=4, unit_price=250, amount=1000)",
+    "name": "CustomerOrderSystem"
+}
